@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vending Machine Analytics Made Simple - Transform your sales data into actionable insights">
+    <title>uVend - Vending Machine Analytics Made Simple</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="smooth-scroll">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-indigo-600">uVend</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-indigo-600 transition">功能</a>
+                    <a href="#how-it-works" class="text-gray-700 hover:text-indigo-600 transition">工作原理</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-indigo-600 transition">价格</a>
+                    <a href="#faq" class="text-gray-700 hover:text-indigo-600 transition">常见问题</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition">联系我们</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/login" class="text-gray-700 hover:text-indigo-600 transition">登录</a>
+                    <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">免费试用</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Vending Machine Analytics Made Simple
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-100">
+                Transform your sales data into actionable insights
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/signup" class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition text-lg">
+                    免费试用
+                </a>
+                <a href="#demo" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition text-lg">
+                    查看演示
+                </a>
+            </div>
+            <div class="mt-12">
+                <img src="https://via.placeholder.com/1200x600/667eea/ffffff?text=Dashboard+Screenshot" 
+                     alt="Dashboard Preview" 
+                     class="rounded-lg shadow-2xl mx-auto max-w-full">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">核心功能</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-semibold mb-2">实时销售分析</h3>
+                    <p class="text-gray-600">实时监控销售数据，快速了解业务状况</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
+                    <div class="text-4xl mb-4">💰</div>
+                    <h3 class="text-xl font-semibold mb-2">利润与利润率追踪</h3>
+                    <p class="text-gray-600">精确计算利润和利润率，优化盈利能力</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
+                    <div class="text-4xl mb-4">📈</div>
+                    <h3 class="text-xl font-semibold mb-2">机器性能洞察</h3>
+                    <p class="text-gray-600">深入了解每台机器的表现，找出优化机会</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
+                    <div class="text-4xl mb-4">📋</div>
+                    <h3 class="text-xl font-semibold mb-2">自动化报告生成</h3>
+                    <p class="text-gray-600">自动生成专业报告，节省时间提高效率</p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h3 class="text-xl font-semibold mb-2">高级筛选与搜索</h3>
+                    <p class="text-gray-600">强大的筛选功能，快速找到你需要的数据</p>
+                </div>
+                <!-- Feature 6 -->
+                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-semibold mb-2">机器配置管理</h3>
+                    <p class="text-gray-600">轻松管理多台机器的配置和设置</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">工作原理</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-indigo-600">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">上传Excel销售数据</h3>
+                    <p class="text-gray-600">只需上传您的Excel销售导出文件，系统会自动处理</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-indigo-600">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">获得即时分析和洞察</h3>
+                    <p class="text-gray-600">系统立即生成详细的分析报告和可视化图表</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-indigo-600">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">导出报告并做出数据驱动决策</h3>
+                    <p class="text-gray-600">导出专业报告，基于数据做出明智的业务决策</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-20 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-8 text-gray-900">产品演示</h2>
+            <p class="text-lg text-gray-600 mb-8">观看视频了解系统如何帮助您提升业务效率</p>
+            <div class="bg-gray-200 rounded-lg aspect-video flex items-center justify-center">
+                <div class="text-center">
+                    <i class="fas fa-play-circle text-6xl text-indigo-600 mb-4"></i>
+                    <p class="text-gray-600">视频演示将在此处显示</p>
+                    <p class="text-sm text-gray-500 mt-2">或嵌入交互式演示（只读模式）</p>
+                </div>
+            </div>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <img src="https://via.placeholder.com/400x250/667eea/ffffff?text=Feature+1" alt="Feature Screenshot" class="rounded-lg shadow-md">
+                <img src="https://via.placeholder.com/400x250/764ba2/ffffff?text=Feature+2" alt="Feature Screenshot" class="rounded-lg shadow-md">
+                <img src="https://via.placeholder.com/400x250/667eea/ffffff?text=Feature+3" alt="Feature Screenshot" class="rounded-lg shadow-md">
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">价格方案</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Starter Plan -->
+                <div class="bg-white border-2 border-gray-200 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold mb-4">Starter</h3>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$29</span>
+                        <span class="text-gray-600">/月</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>最多 1,000 条记录</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>基础分析功能</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>邮件支持</span>
+                        </li>
+                    </ul>
+                    <a href="/signup" class="block text-center bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                        免费试用
+                    </a>
+                </div>
+                <!-- Professional Plan -->
+                <div class="bg-indigo-600 text-white border-2 border-indigo-600 rounded-lg p-8 transform scale-105">
+                    <div class="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">
+                        最受欢迎
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Professional</h3>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$79</span>
+                        <span class="text-gray-200">/月</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-2"></i>
+                            <span>最多 10,000 条记录</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-2"></i>
+                            <span>高级分析功能</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-2"></i>
+                            <span>优先支持</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-300 mr-2"></i>
+                            <span>API 访问</span>
+                        </li>
+                    </ul>
+                    <a href="/signup" class="block text-center bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                        免费试用
+                    </a>
+                </div>
+                <!-- Enterprise Plan -->
+                <div class="bg-white border-2 border-gray-200 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$199</span>
+                        <span class="text-gray-600">/月</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>无限记录</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>所有高级功能</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>专属客户经理</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>定制化开发</span>
+                        </li>
+                    </ul>
+                    <a href="/signup" class="block text-center bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                        免费试用
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases / Benefits -->
+    <section class="py-20 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">适用场景</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">适合人群</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
+                            <span>自动售货机运营商</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
+                            <span>业务经理和分析师</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
+                            <span>需要数据驱动的决策者</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">解决的问题</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
+                            <span>数据分散，难以统一分析</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
+                            <span>手动处理数据耗时费力</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
+                            <span>缺乏实时业务洞察</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 bg-indigo-50 rounded-lg p-8">
+                <h3 class="text-2xl font-semibold mb-4 text-center">投资回报示例</h3>
+                <p class="text-center text-gray-700 text-lg">
+                    通过使用 uVend，我们的客户平均节省了 <strong>15小时/周</strong> 的数据处理时间，
+                    并将决策效率提升了 <strong>40%</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">客户评价</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">★★★★★</div>
+                    </div>
+                    <p class="text-gray-700 mb-4">"uVend 彻底改变了我们分析销售数据的方式。现在我们可以快速做出数据驱动的决策。"</p>
+                    <div class="font-semibold">- 张经理，ABC自动售货公司</div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">★★★★★</div>
+                    </div>
+                    <p class="text-gray-700 mb-4">"界面直观，功能强大。节省了我们大量的时间，让我们能够专注于业务增长。"</p>
+                    <div class="font-semibold">- 李总，XYZ零售集团</div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">★★★★★</div>
+                    </div>
+                    <p class="text-gray-700 mb-4">"报告功能非常专业，我们的投资者对数据的呈现方式印象深刻。"</p>
+                    <div class="font-semibold">- 王总监，DEF运营公司</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 px-4 bg-gray-50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">常见问题</h2>
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">系统有哪些技术要求？</h3>
+                    <p class="text-gray-600">系统基于云端运行，只需要现代浏览器即可使用。支持 Chrome、Firefox、Safari 和 Edge。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">数据安全性如何保障？</h3>
+                    <p class="text-gray-600">我们采用行业标准的数据加密和安全措施，所有数据都经过加密传输和存储，确保您的数据安全。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">支持哪些数据格式？</h3>
+                    <p class="text-gray-600">目前支持 Excel (.xlsx, .xls) 格式。未来将支持 CSV 和其他格式。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">可以取消订阅吗？</h3>
+                    <p class="text-gray-600">当然可以。您可以随时在账户设置中取消订阅，不会有任何隐藏费用。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">有免费试用期吗？</h3>
+                    <p class="text-gray-600">是的，我们提供 14 天免费试用，无需信用卡即可开始使用。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">联系我们</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">获取支持</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-indigo-600 mr-4 text-xl"></i>
+                            <a href="mailto:support@uvend.ai" class="text-gray-700 hover:text-indigo-600">support@uvend.ai</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-book text-indigo-600 mr-4 text-xl"></i>
+                            <a href="/help" class="text-gray-700 hover:text-indigo-600">帮助中心</a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">发送消息</h3>
+                    <form class="space-y-4">
+                        <input type="text" placeholder="您的姓名" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                        <input type="email" placeholder="您的邮箱" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                        <textarea placeholder="您的消息" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"></textarea>
+                        <button type="submit" class="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                            发送消息
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">uVend</h3>
+                    <p class="text-gray-400">让自动售货机数据分析变得简单</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">产品</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features" class="hover:text-white transition">功能</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition">价格</a></li>
+                        <li><a href="#demo" class="hover:text-white transition">演示</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">资源</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/docs" class="hover:text-white transition">文档</a></li>
+                        <li><a href="/help" class="hover:text-white transition">帮助中心</a></li>
+                        <li><a href="#faq" class="hover:text-white transition">常见问题</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">公司</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about" class="hover:text-white transition">关于我们</a></li>
+                        <li><a href="#contact" class="hover:text-white transition">联系我们</a></li>
+                        <li><a href="/privacy" class="hover:text-white transition">隐私政策</a></li>
+                        <li><a href="/terms" class="hover:text-white transition">服务条款</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2024 uVend. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
