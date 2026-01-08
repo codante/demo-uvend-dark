@@ -1,0 +1,64 @@
+我们现在可能需要设计个网站，域名是uvend.ai. 
+主要是两块，一个是landing page, 参考https://www.vendsoft.com/ ,一个是用户登录界面，里面包括我们现在开发的一个交互平台，直接转过去就行。 然后需要客户看到自己的subscription 信息，所以需要跟stripe 接到一起。
+你可以先看下类似的平台需要的一些工具，然后我们这边ready的再跟你讨论具体的landing page 网页设计? 
+
+2. Landing Page Structure (uvend.ai)
+Homepage sections:
+Hero Section
+Headline: "Vending Machine Analytics Made Simple"
+Subheadline: "Transform your sales data into actionable insights"
+CTA: "Start Free Trial" / "View Demo"
+Hero image/video: Dashboard screenshot or animated demo
+Features Section
+Key features with icons:
+📊 Real-time Sales Analytics
+💰 Profit & Margin Tracking
+📈 Machine Performance Insights
+📋 Automated Report Generation
+🔍 Advanced Filtering & Search
+⚙️ Machine Configuration Management
+How It Works (3-step process)
+Step 1: Upload your Excel sales export
+Step 2: Get instant analytics and insights
+Step 3: Export reports and make data-driven decisions
+Demo/Interactive Preview
+Embedded video walkthrough
+OR: Interactive demo with sample data (read-only)
+Screenshots of key features
+Pricing Section
+Subscription tiers (Starter, Professional, Enterprise)
+Clear record limits and pricing
+"Start Free Trial" buttons
+Use Cases / Benefits
+Who it's for (vending machine operators, managers, etc.)
+Pain points it solves
+ROI examples
+Testimonials (when available)
+Customer quotes
+Case studies
+FAQ Section
+Common questions about the system
+Technical requirements
+Data security
+Contact/Support
+Contact form
+Email: support@uvend.ai
+Help center link
+Footer
+Links: About, Features, Pricing, Documentation, Contact
+Social media links
+Privacy Policy, Terms of Service
+3. Additional Pages
+Essential pages:
+/pricing - Detailed pricing with feature comparison
+/features - Detailed feature descriptions
+/demo - Interactive demo or video
+/docs or /help - Documentation/Help Center
+/contact - Contact form
+/about - Company/Product story
+/login - Redirects to app.uvend.ai or direct login
+/signup - Registration page (or redirect to app)
+4. User Journey Flow
+1. User visits uvend.ai   ↓2. Browses landing page, sees features/demo   ↓3. Clicks "Start Free Trial" or "Get Started"   ↓4. Redirects to app.uvend.ai/signup   ↓5. User creates account → Stripe checkout   ↓6. After payment → app.uvend.ai/dashboard (main app)   ↓7. User uploads data and uses the system
+Alternative flow (for existing users):
+1. User visits uvend.ai   ↓2. Clicks "Login" in header   ↓3. Redirects to app.uvend.ai/login   ↓4. Authenticates → Dashboard
