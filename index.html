@@ -1,465 +1,712 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Vending Machine Analytics Made Simple - Transform your sales data into actionable insights">
+    <meta name="description" content="uVend - Vending Machine Analytics Made Simple">
     <title>uVend - Vending Machine Analytics Made Simple</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        :root {
+            --bg-deep: #020203;
+            --bg-base: #050506;
+            --bg-elevated: #0a0a0c;
+            --surface: rgba(255,255,255,0.05);
+            --surface-hover: rgba(255,255,255,0.08);
+            --fg: #EDEDEF;
+            --fg-muted: #8A8F98;
+            --fg-subtle: rgba(255,255,255,0.6);
+            --accent: #5E6AD2;
+            --accent-bright: #6872D9;
+            --accent-glow: rgba(94,106,210,0.3);
+            --border: rgba(255,255,255,0.06);
+        }
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease;
-        }
-        .smooth-scroll {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--fg);
+            background: var(--bg-base);
             scroll-behavior: smooth;
+        }
+        .glass {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.05),
+                0 10px 40px rgba(0,0,0,0.5),
+                0 0 60px rgba(94,106,210,0.08);
+            backdrop-filter: blur(16px);
+        }
+        .card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.06),
+                0 10px 40px rgba(0,0,0,0.4),
+                0 0 50px rgba(94,106,210,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(94,106,210,0.12), transparent 45%);
+            opacity: 0;
+            transition: opacity 200ms ease;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.1),
+                0 16px 60px rgba(0,0,0,0.55),
+                0 0 80px rgba(94,106,210,0.14);
+            border-color: rgba(255,255,255,0.12);
+        }
+        .card:hover::before { opacity: 1; }
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border-radius: 10px;
+            padding: 14px 22px;
+            font-weight: 700;
+            box-shadow:
+                0 0 0 1px rgba(94,106,210,0.5),
+                0 10px 30px rgba(94,106,210,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 200ms ease, background 200ms ease;
+        }
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow:
+                0 0 0 1px rgba(94,106,210,0.6),
+                0 14px 40px rgba(94,106,210,0.45),
+                inset 0 1px 0 rgba(255,255,255,0.22);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-ghost {
+            background: rgba(255,255,255,0.04);
+            color: var(--fg);
+            border-radius: 10px;
+            padding: 14px 22px;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: background 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        .badge {
+            border: 1px solid rgba(94,106,210,0.35);
+            color: #B8BCEE;
+            background: rgba(94,106,210,0.12);
+            border-radius: 999px;
+            padding: 6px 10px;
+            letter-spacing: 0.08em;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(94,106,210,0.35), transparent 45%),
+                        radial-gradient(ellipse at 30% 40%, rgba(120,80,255,0.18), transparent 35%),
+                        radial-gradient(ellipse at 70% 30%, rgba(80,120,255,0.12), transparent 30%),
+                        radial-gradient(ellipse at bottom, rgba(94,106,210,0.12), transparent 50%),
+                        linear-gradient(180deg, #0a0a0f, #050506 60%, #020203);
+        }
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+            opacity: 0.12;
+        }
+        .blob {
+            position: absolute;
+            filter: blur(140px);
+            opacity: 0.4;
+            animation: float 9s ease-in-out infinite;
+        }
+        .blob-2 { animation-duration: 10s; opacity: 0.3; }
+        .blob-3 { animation-duration: 8s; opacity: 0.28; }
+        @keyframes float {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+        .grid-overlay {
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 64px 64px;
+            opacity: 0.4;
+        }
+        .section-divider {
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .title-gradient {
+            background: linear-gradient(180deg, #fff, rgba(255,255,255,0.92), rgba(255,255,255,0.72));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .accent-gradient {
+            background: linear-gradient(90deg, #5E6AD2, #7d8df0, #5E6AD2);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .spotlight {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle 300px at var(--x, 50%) var(--y, 50%), rgba(94,106,210,0.14), transparent 50%);
+            opacity: 0;
+            transition: opacity 240ms ease;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+            .spotlight, .card::before { display: none !important; }
         }
     </style>
 </head>
-<body class="smooth-scroll">
+<body class="bg-[var(--bg-base)] text-[var(--fg)] antialiased">
+    <!-- Ambient layers -->
+    <div class="fixed inset-0 -z-20 hero-gradient"></div>
+    <div class="fixed inset-0 -z-10 bg-noise mix-blend-soft-light"></div>
+    <div class="fixed inset-0 -z-10 grid-overlay"></div>
+    <div class="blob w-[900px] h-[900px] bg-[rgba(94,106,210,0.25)] top-[-200px] left-[20%] -z-10"></div>
+    <div class="blob blob-2 w-[700px] h-[700px] bg-[rgba(120,80,255,0.18)] top-[20%] left-[-10%] -z-10"></div>
+    <div class="blob blob-3 w-[600px] h-[600px] bg-[rgba(80,120,255,0.14)] top-[10%] right-[-10%] -z-10"></div>
+    <div id="spotlight" class="spotlight"></div>
+
     <!-- Navigation -->
-    <nav class="bg-white shadow-md fixed w-full top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold text-indigo-600">uVend</span>
+    <header class="fixed top-0 inset-x-0 z-50">
+        <nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between glass rounded-2xl mt-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-[rgba(94,106,210,0.15)] border border-[rgba(255,255,255,0.08)] shadow-[0_0_0_1px_rgba(94,106,210,0.35),0_10px_30px_rgba(0,0,0,0.35)] flex items-center justify-center text-lg font-bold text-[var(--accent)]">
+                    uV
                 </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#features" class="text-gray-700 hover:text-indigo-600 transition">功能</a>
-                    <a href="#how-it-works" class="text-gray-700 hover:text-indigo-600 transition">工作原理</a>
-                    <a href="#pricing" class="text-gray-700 hover:text-indigo-600 transition">价格</a>
-                    <a href="#faq" class="text-gray-700 hover:text-indigo-600 transition">常见问题</a>
-                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition">联系我们</a>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="/login" class="text-gray-700 hover:text-indigo-600 transition">登录</a>
-                    <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">免费试用</a>
+                <span class="text-lg font-semibold tracking-tight">uVend</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-[var(--fg-muted)]">
+                <a class="hover:text-[var(--fg)] transition" href="#features">Features</a>
+                <a class="hover:text-[var(--fg)] transition" href="#how-it-works">How It Works</a>
+                <a class="hover:text-[var(--fg)] transition" href="#pricing">Pricing</a>
+                <a class="hover:text-[var(--fg)] transition" href="#faq">FAQ</a>
+                <a class="hover:text-[var(--fg)] transition" href="#contact">Contact</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-3">
+                <a href="/login" class="btn-ghost text-sm">Login</a>
+                <a href="/signup" class="btn-primary text-sm">Start Free Trial</a>
+            </div>
+            <button id="menu-toggle" class="md:hidden text-[var(--fg)] p-2 rounded-lg bg-white/5 border border-white/10">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+            <div id="mobile-menu" class="md:hidden mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-3 hidden">
+            <div class="glass rounded-2xl p-4 space-y-3 text-sm font-medium text-[var(--fg-muted)]">
+                <a class="block hover:text-[var(--fg)] transition" href="#features">Features</a>
+                <a class="block hover:text-[var(--fg)] transition" href="#how-it-works">How It Works</a>
+                <a class="block hover:text-[var(--fg)] transition" href="#pricing">Pricing</a>
+                <a class="block hover:text-[var(--fg)] transition" href="#faq">FAQ</a>
+                <a class="block hover:text-[var(--fg)] transition" href="#contact">Contact</a>
+                <div class="flex space-x-3 pt-2">
+                    <a href="/login" class="flex-1 btn-ghost text-center">Login</a>
+                    <a href="/signup" class="flex-1 btn-primary text-center">Start Free Trial</a>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="gradient-bg text-white pt-32 pb-20 px-4">
-        <div class="max-w-7xl mx-auto text-center">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6">
-                Vending Machine Analytics Made Simple
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 text-gray-100">
-                Transform your sales data into actionable insights
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/signup" class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition text-lg">
-                    免费试用
-                </a>
-                <a href="#demo" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition text-lg">
-                    查看演示
-                </a>
-            </div>
-            <div class="mt-12">
-                <img src="https://via.placeholder.com/1200x600/667eea/ffffff?text=Dashboard+Screenshot" 
-                     alt="Dashboard Preview" 
-                     class="rounded-lg shadow-2xl mx-auto max-w-full">
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-20 px-4 bg-gray-50">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">核心功能</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
-                    <div class="text-4xl mb-4">📊</div>
-                    <h3 class="text-xl font-semibold mb-2">实时销售分析</h3>
-                    <p class="text-gray-600">实时监控销售数据，快速了解业务状况</p>
-                </div>
-                <!-- Feature 2 -->
-                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
-                    <div class="text-4xl mb-4">💰</div>
-                    <h3 class="text-xl font-semibold mb-2">利润与利润率追踪</h3>
-                    <p class="text-gray-600">精确计算利润和利润率，优化盈利能力</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
-                    <div class="text-4xl mb-4">📈</div>
-                    <h3 class="text-xl font-semibold mb-2">机器性能洞察</h3>
-                    <p class="text-gray-600">深入了解每台机器的表现，找出优化机会</p>
-                </div>
-                <!-- Feature 4 -->
-                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
-                    <div class="text-4xl mb-4">📋</div>
-                    <h3 class="text-xl font-semibold mb-2">自动化报告生成</h3>
-                    <p class="text-gray-600">自动生成专业报告，节省时间提高效率</p>
-                </div>
-                <!-- Feature 5 -->
-                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
-                    <div class="text-4xl mb-4">🔍</div>
-                    <h3 class="text-xl font-semibold mb-2">高级筛选与搜索</h3>
-                    <p class="text-gray-600">强大的筛选功能，快速找到你需要的数据</p>
-                </div>
-                <!-- Feature 6 -->
-                <div class="bg-white p-6 rounded-lg shadow-md feature-card">
-                    <div class="text-4xl mb-4">⚙️</div>
-                    <h3 class="text-xl font-semibold mb-2">机器配置管理</h3>
-                    <p class="text-gray-600">轻松管理多台机器的配置和设置</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section id="how-it-works" class="py-20 px-4">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">工作原理</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl font-bold text-indigo-600">1</span>
+    <main class="relative overflow-hidden">
+        <!-- Hero -->
+        <section class="pt-36 pb-24 px-4">
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="badge inline-flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-[var(--accent)] shadow-[0_0_0_4px_rgba(94,106,210,0.25)]"></span>
+                        Vending Machine Analytics
                     </div>
-                    <h3 class="text-xl font-semibold mb-4">上传Excel销售数据</h3>
-                    <p class="text-gray-600">只需上传您的Excel销售导出文件，系统会自动处理</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl font-bold text-indigo-600">2</span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-tight tracking-tight">
+                        <span class="title-gradient block">Vending Machine Analytics</span>
+                        <span class="accent-gradient block">Made Simple</span>
+                    </h1>
+                    <p class="text-lg text-[var(--fg-muted)] leading-relaxed max-w-2xl">
+                        Transform your sales data into actionable insights
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="/signup" class="btn-primary text-base text-center">Start Free Trial</a>
+                        <a href="#demo" class="btn-ghost text-base text-center">View Demo</a>
                     </div>
-                    <h3 class="text-xl font-semibold mb-4">获得即时分析和洞察</h3>
-                    <p class="text-gray-600">系统立即生成详细的分析报告和可视化图表</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-3xl font-bold text-indigo-600">3</span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-4">导出报告并做出数据驱动决策</h3>
-                    <p class="text-gray-600">导出专业报告，基于数据做出明智的业务决策</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Demo Section -->
-    <section id="demo" class="py-20 px-4 bg-gray-50">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-8 text-gray-900">产品演示</h2>
-            <p class="text-lg text-gray-600 mb-8">观看视频了解系统如何帮助您提升业务效率</p>
-            <div class="bg-gray-200 rounded-lg aspect-video flex items-center justify-center">
-                <div class="text-center">
-                    <i class="fas fa-play-circle text-6xl text-indigo-600 mb-4"></i>
-                    <p class="text-gray-600">视频演示将在此处显示</p>
-                    <p class="text-sm text-gray-500 mt-2">或嵌入交互式演示（只读模式）</p>
-                </div>
-            </div>
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <img src="https://via.placeholder.com/400x250/667eea/ffffff?text=Feature+1" alt="Feature Screenshot" class="rounded-lg shadow-md">
-                <img src="https://via.placeholder.com/400x250/764ba2/ffffff?text=Feature+2" alt="Feature Screenshot" class="rounded-lg shadow-md">
-                <img src="https://via.placeholder.com/400x250/667eea/ffffff?text=Feature+3" alt="Feature Screenshot" class="rounded-lg shadow-md">
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-20 px-4">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">价格方案</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Starter Plan -->
-                <div class="bg-white border-2 border-gray-200 rounded-lg p-8">
-                    <h3 class="text-2xl font-bold mb-4">Starter</h3>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold">$29</span>
-                        <span class="text-gray-600">/月</span>
-                    </div>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span>最多 1,000 条记录</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span>基础分析功能</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span>邮件支持</span>
-                        </li>
-                    </ul>
-                    <a href="/signup" class="block text-center bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
-                        免费试用
-                    </a>
-                </div>
-                <!-- Professional Plan -->
-                <div class="bg-indigo-600 text-white border-2 border-indigo-600 rounded-lg p-8 transform scale-105">
-                    <div class="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">
-                        最受欢迎
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Professional</h3>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold">$79</span>
-                        <span class="text-gray-200">/月</span>
-                    </div>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-2"></i>
-                            <span>最多 10,000 条记录</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-2"></i>
-                            <span>高级分析功能</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-2"></i>
-                            <span>优先支持</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-300 mr-2"></i>
-                            <span>API 访问</span>
-                        </li>
-                    </ul>
-                    <a href="/signup" class="block text-center bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
-                        免费试用
-                    </a>
-                </div>
-                <!-- Enterprise Plan -->
-                <div class="bg-white border-2 border-gray-200 rounded-lg p-8">
-                    <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold">$199</span>
-                        <span class="text-gray-600">/月</span>
-                    </div>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span>无限记录</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span>所有高级功能</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span>专属客户经理</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span>定制化开发</span>
-                        </li>
-                    </ul>
-                    <a href="/signup" class="block text-center bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
-                        免费试用
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Use Cases / Benefits -->
-    <section class="py-20 px-4 bg-gray-50">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">适用场景</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-2xl font-semibold mb-6">适合人群</h3>
-                    <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
-                            <span>自动售货机运营商</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
-                            <span>业务经理和分析师</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
-                            <span>需要数据驱动的决策者</span>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-semibold mb-6">解决的问题</h3>
-                    <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
-                            <span>数据分散，难以统一分析</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
-                            <span>手动处理数据耗时费力</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-indigo-600 mr-3 mt-1"></i>
-                            <span>缺乏实时业务洞察</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mt-12 bg-indigo-50 rounded-lg p-8">
-                <h3 class="text-2xl font-semibold mb-4 text-center">投资回报示例</h3>
-                <p class="text-center text-gray-700 text-lg">
-                    通过使用 uVend，我们的客户平均节省了 <strong>15小时/周</strong> 的数据处理时间，
-                    并将决策效率提升了 <strong>40%</strong>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="py-20 px-4">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">客户评价</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="text-yellow-400 text-xl">★★★★★</div>
-                    </div>
-                    <p class="text-gray-700 mb-4">"uVend 彻底改变了我们分析销售数据的方式。现在我们可以快速做出数据驱动的决策。"</p>
-                    <div class="font-semibold">- 张经理，ABC自动售货公司</div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="text-yellow-400 text-xl">★★★★★</div>
-                    </div>
-                    <p class="text-gray-700 mb-4">"界面直观，功能强大。节省了我们大量的时间，让我们能够专注于业务增长。"</p>
-                    <div class="font-semibold">- 李总，XYZ零售集团</div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="text-yellow-400 text-xl">★★★★★</div>
-                    </div>
-                    <p class="text-gray-700 mb-4">"报告功能非常专业，我们的投资者对数据的呈现方式印象深刻。"</p>
-                    <div class="font-semibold">- 王总监，DEF运营公司</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section id="faq" class="py-20 px-4 bg-gray-50">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">常见问题</h2>
-            <div class="space-y-6">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">系统有哪些技术要求？</h3>
-                    <p class="text-gray-600">系统基于云端运行，只需要现代浏览器即可使用。支持 Chrome、Firefox、Safari 和 Edge。</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">数据安全性如何保障？</h3>
-                    <p class="text-gray-600">我们采用行业标准的数据加密和安全措施，所有数据都经过加密传输和存储，确保您的数据安全。</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">支持哪些数据格式？</h3>
-                    <p class="text-gray-600">目前支持 Excel (.xlsx, .xls) 格式。未来将支持 CSV 和其他格式。</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">可以取消订阅吗？</h3>
-                    <p class="text-gray-600">当然可以。您可以随时在账户设置中取消订阅，不会有任何隐藏费用。</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">有免费试用期吗？</h3>
-                    <p class="text-gray-600">是的，我们提供 14 天免费试用，无需信用卡即可开始使用。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 px-4">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">联系我们</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-2xl font-semibold mb-6">获取支持</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center">
-                            <i class="fas fa-envelope text-indigo-600 mr-4 text-xl"></i>
-                            <a href="mailto:support@uvend.ai" class="text-gray-700 hover:text-indigo-600">support@uvend.ai</a>
+                    <div class="flex items-center gap-4 text-sm text-[var(--fg-subtle)]">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-green-400 rounded-full shadow-[0_0_0_4px_rgba(74,222,128,0.2)]"></span>
+                            Instant setup, no deployment
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-book text-indigo-600 mr-4 text-xl"></i>
-                            <a href="/help" class="text-gray-700 hover:text-indigo-600">帮助中心</a>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-shield-alt text-[var(--accent)]"></i>
+                            Data encrypted & secure
                         </div>
                     </div>
                 </div>
+                <div class="lg:col-span-5">
+                    <div class="card p-6 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-white/6 via-transparent to-black/50 pointer-events-none"></div>
+                        <div class="flex justify-between items-center mb-4 text-xs text-[var(--fg-subtle)]">
+                            <span>Live Overview</span>
+                            <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">Live</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mb-6">
+                            <div class="glass p-3 rounded-xl border border-white/5">
+                                <div class="text-[var(--fg-subtle)] text-xs">Today's Sales</div>
+                                <div class="text-2xl font-semibold mt-1">$12,430</div>
+                                <div class="text-emerald-400 text-xs flex items-center gap-1 mt-1"><i class="fas fa-arrow-up"></i> +18.3%</div>
+                            </div>
+                            <div class="glass p-3 rounded-xl border border-white/5">
+                                <div class="text-[var(--fg-subtle)] text-xs">Machines Online</div>
+                                <div class="text-2xl font-semibold mt-1">128</div>
+                                <div class="text-emerald-400 text-xs flex items-center gap-1 mt-1"><i class="fas fa-arrow-up"></i> 99.2% Healthy</div>
+                            </div>
+                        </div>
+                        <div class="bg-[rgba(255,255,255,0.04)] rounded-xl border border-white/5 p-4 mb-6">
+                            <div class="flex justify-between text-xs text-[var(--fg-subtle)] mb-3">
+                                <span>Sales Trend</span>
+                                <span>Last 7 Days</span>
+                            </div>
+                            <div class="h-32 w-full bg-gradient-to-b from-[rgba(94,106,210,0.2)] to-transparent rounded-lg relative overflow-hidden">
+                                <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(94,106,210,0.35),transparent_35%),radial-gradient(circle_at_70%_60%,rgba(120,80,255,0.25),transparent_45%)]"></div>
+                                <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#050506] via-transparent"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm text-[var(--fg-muted)]">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-[var(--accent)] rounded-full"></span>
+                                Stripe Subscription Sync
+                            </div>
+                            <a href="/signup" class="text-[var(--accent)] hover:text-[var(--accent-bright)] font-semibold text-sm">Get Started →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="py-24 px-4 section-divider">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-start justify-between flex-wrap gap-6 mb-10">
+                    <div>
+                        <p class="badge mb-3">Features</p>
+                        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient">Insights, Efficiency, Scalability</h2>
+                        <p class="text-[var(--fg-muted)] mt-3 max-w-2xl">From real-time sales to machine performance, all-in-one visualization with filtering, export, and automated reports.</p>
+                    </div>
+                    <a href="#demo" class="btn-ghost text-sm">View Demo</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 auto-rows-[220px]">
+                    <div class="card p-6 lg:col-span-3 flex flex-col justify-between">
+                        <div>
+                            <div class="text-sm text-[var(--fg-subtle)] mb-2">Real-time Sales Analytics</div>
+                            <h3 class="text-xl font-semibold mb-2">Instant insights into your revenue</h3>
+                            <p class="text-[var(--fg-muted)] text-sm">Monitor sales, inventory, and top sellers in real-time to spot trends immediately.</p>
+                        </div>
+                        <div class="text-4xl">📊</div>
+                    </div>
+                    <div class="card p-6 lg:col-span-3 flex flex-col justify-between">
+                        <div>
+                            <div class="text-sm text-[var(--fg-subtle)] mb-2">Profit & Margin Tracking</div>
+                            <h3 class="text-xl font-semibold mb-2">Visible profitability</h3>
+                            <p class="text-[var(--fg-muted)] text-sm">Break down profits by machine and region to quickly assess ROI.</p>
+                        </div>
+                        <div class="text-4xl">💰</div>
+                    </div>
+                    <div class="card p-6 lg:col-span-2 flex flex-col justify-between">
+                        <div>
+                            <div class="text-sm text-[var(--fg-subtle)] mb-2">Machine Performance Insights</div>
+                            <h3 class="text-xl font-semibold mb-2">Machine health monitoring</h3>
+                            <p class="text-[var(--fg-muted)] text-sm">See downtime and abnormal sales at a glance for proactive maintenance.</p>
+                        </div>
+                        <div class="text-3xl">📈</div>
+                    </div>
+                    <div class="card p-6 lg:col-span-2 flex flex-col justify-between">
+                        <div>
+                            <div class="text-sm text-[var(--fg-subtle)] mb-2">Automated Report Generation</div>
+                            <h3 class="text-xl font-semibold mb-2">One-click export</h3>
+                            <p class="text-[var(--fg-muted)] text-sm">Automatically generate PDF/Excel reports weekly or monthly and share with your team.</p>
+                        </div>
+                        <div class="text-3xl">📋</div>
+                    </div>
+                    <div class="card p-6 lg:col-span-2 flex flex-col justify-between">
+                        <div>
+                            <div class="text-sm text-[var(--fg-subtle)] mb-2">Advanced Filtering & Search</div>
+                            <h3 class="text-xl font-semibold mb-2">Pinpoint issues precisely</h3>
+                            <p class="text-[var(--fg-muted)] text-sm">Multi-dimensional filtering by machine, SKU, time, and region.</p>
+                        </div>
+                        <div class="text-3xl">🔍</div>
+                    </div>
+                    <div class="card p-6 lg:col-span-3 flex flex-col justify-between">
+                        <div>
+                            <div class="text-sm text-[var(--fg-subtle)] mb-2">Machine Configuration Management</div>
+                            <h3 class="text-xl font-semibold mb-2">Centralized machine management</h3>
+                            <p class="text-[var(--fg-muted)] text-sm">Sync configurations, batch updates, and version history to reduce maintenance costs.</p>
+                        </div>
+                        <div class="text-3xl">⚙️</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section id="how-it-works" class="py-24 px-4 section-divider">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-start justify-between flex-wrap gap-6 mb-10">
+                    <div>
+                        <p class="badge mb-3">How It Works</p>
+                        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient">3 steps to data-driven decisions</h2>
+                        <p class="text-[var(--fg-muted)] mt-3 max-w-2xl">From Excel export to full visualization in minutes. Get started quickly.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 flex flex-col gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg font-bold text-[var(--accent)]">1</div>
+                        <h3 class="text-xl font-semibold">Upload your Excel sales export</h3>
+                        <p class="text-[var(--fg-muted)] text-sm">Upload your sales export and the system automatically parses SKU, time, and machine information.</p>
+                    </div>
+                    <div class="card p-6 flex flex-col gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg font-bold text-[var(--accent)]">2</div>
+                        <h3 class="text-xl font-semibold">Get instant analytics and insights</h3>
+                        <p class="text-[var(--fg-muted)] text-sm">Instantly generate trends, profits, anomaly alerts, and machine health metrics.</p>
+                    </div>
+                    <div class="card p-6 flex flex-col gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg font-bold text-[var(--accent)]">3</div>
+                        <h3 class="text-xl font-semibold">Export reports and make data-driven decisions</h3>
+                        <p class="text-[var(--fg-muted)] text-sm">Export PDF/Excel reports, share with your team or investors, and make quick decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo -->
+        <section id="demo" class="py-24 px-4 section-divider">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-start justify-between flex-wrap gap-6 mb-10">
+                    <div>
+                        <p class="badge mb-3">Demo</p>
+                        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient">See it in action</h2>
+                        <p class="text-[var(--fg-muted)] mt-3 max-w-2xl">Video walkthrough or embedded interactive demo with sample data (read-only) for team evaluation.</p>
+                    </div>
+                    <a href="/signup" class="btn-primary text-sm">Try Now</a>
+                </div>
+                <div class="card p-4">
+                    <div class="aspect-video rounded-xl bg-[rgba(255,255,255,0.03)] border border-white/10 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/40"></div>
+                        <div class="text-center space-y-2 relative z-10">
+                            <i class="fas fa-play-circle text-6xl text-[var(--accent)] mb-2"></i>
+                            <p class="text-[var(--fg-muted)]">Embedded video walkthrough</p>
+                            <p class="text-xs text-[var(--fg-subtle)]">OR: Interactive demo with sample data (read-only)</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <img src="https://via.placeholder.com/400x250/1b1c24/ffffff?text=Feature+1" alt="Feature Screenshot" class="rounded-xl border border-white/10">
+                        <img src="https://via.placeholder.com/400x250/20212c/ffffff?text=Feature+2" alt="Feature Screenshot" class="rounded-xl border border-white/10">
+                        <img src="https://via.placeholder.com/400x250/1c1d26/ffffff?text=Feature+3" alt="Feature Screenshot" class="rounded-xl border border-white/10">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="pricing" class="py-24 px-4 section-divider">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-start justify-between flex-wrap gap-6 mb-10">
+                    <div>
+                        <p class="badge mb-3">Pricing</p>
+                        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient">Transparent subscriptions, no hidden fees</h2>
+                        <p class="text-[var(--fg-muted)] mt-3 max-w-2xl">Tiered by record limits and support levels. Upgrade as you grow.</p>
+                    </div>
+                    <div class="text-sm text-[var(--fg-subtle)] flex items-center gap-2">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>14-day free trial
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 flex flex-col gap-4">
+                        <div class="text-sm text-[var(--fg-subtle)]">Starter</div>
+                        <div class="text-4xl font-semibold">$29 <span class="text-sm text-[var(--fg-muted)]">/month</span></div>
+                        <ul class="space-y-2 text-sm text-[var(--fg-muted)]">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Up to 1,000 records</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Basic analytics</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Email support</li>
+                        </ul>
+                        <a href="/signup" class="btn-ghost text-center mt-auto">Start Free Trial</a>
+                    </div>
+                    <div class="card p-6 flex flex-col gap-4 border-[rgba(94,106,210,0.35)] shadow-[0_0_0_1px_rgba(94,106,210,0.45),0_18px_60px_rgba(0,0,0,0.55)] relative overflow-hidden">
+                        <div class="absolute right-4 top-4 text-xs px-3 py-1 rounded-full bg-[rgba(94,106,210,0.2)] border border-[rgba(94,106,210,0.4)] text-[var(--accent)] font-semibold">Most Popular</div>
+                        <div class="text-sm text-[var(--fg-subtle)]">Professional</div>
+                        <div class="text-4xl font-semibold">$79 <span class="text-sm text-[var(--fg-subtle)]">/month</span></div>
+                        <ul class="space-y-2 text-sm text-[var(--fg-muted)]">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Up to 10,000 records</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Advanced analytics</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Priority support</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>API access</li>
+                        </ul>
+                        <a href="/signup" class="btn-primary text-center mt-auto">Start Free Trial</a>
+                    </div>
+                    <div class="card p-6 flex flex-col gap-4">
+                        <div class="text-sm text-[var(--fg-subtle)]">Enterprise</div>
+                        <div class="text-4xl font-semibold">$199 <span class="text-sm text-[var(--fg-muted)]">/month</span></div>
+                        <ul class="space-y-2 text-sm text-[var(--fg-muted)]">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Unlimited records</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>All advanced features</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Dedicated account manager</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Custom development</li>
+                        </ul>
+                        <a href="/signup" class="btn-ghost text-center mt-auto">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use cases -->
+        <section class="py-24 px-4 section-divider">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-start justify-between flex-wrap gap-6 mb-10">
+                    <div>
+                        <p class="badge mb-3">Use Cases</p>
+                        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient">Who uses uVend</h2>
+                        <p class="text-[var(--fg-muted)] mt-3 max-w-2xl">Actionable real-time data for operators, managers, and analysts.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h3 class="text-xl font-semibold mb-4">Who it's for</h3>
+                        <ul class="space-y-3 text-[var(--fg-muted)] text-sm">
+                            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i>Vending machine operators</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i>Business managers and analysts</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i>Teams needing data-driven decisions</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="text-xl font-semibold mb-4">Pain points it solves</h3>
+                        <ul class="space-y-3 text-[var(--fg-muted)] text-sm">
+                            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i>Scattered data, hard to analyze</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i>Time-consuming manual processing, no real-time insights</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-check-circle text-[var(--accent)] mt-1"></i>Lack of timely alerts for operational anomalies</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card p-6 mt-8 text-center">
+                    <h3 class="text-2xl font-semibold mb-3">ROI examples</h3>
+                    <p class="text-[var(--fg-muted)] text-base">Customers save an average of <span class="text-[var(--fg)] font-semibold">15 hours/week</span> on data processing and improve decision efficiency by <span class="text-[var(--fg)] font-semibold">40%</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-24 px-4 section-divider">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-start justify-between flex-wrap gap-6 mb-10">
+                    <div>
+                        <p class="badge mb-3">Testimonials</p>
+                        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient">Trusted analytics experience</h2>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 flex flex-col gap-4">
+                        <div class="text-yellow-400 text-lg">★★★★★</div>
+                        <p class="text-[var(--fg-muted)] text-sm">"uVend transformed how we analyze sales data. We can now make data-driven decisions quickly."</p>
+                        <div class="text-sm font-semibold text-[var(--fg)]">— Manager Zhang, ABC Vending</div>
+                    </div>
+                    <div class="card p-6 flex flex-col gap-4">
+                        <div class="text-yellow-400 text-lg">★★★★★</div>
+                        <p class="text-[var(--fg-muted)] text-sm">"Intuitive interface, powerful features. Saves us tons of time so we can focus on growth."</p>
+                        <div class="text-sm font-semibold text-[var(--fg)]">— CEO Li, XYZ Retail</div>
+                    </div>
+                    <div class="card p-6 flex flex-col gap-4">
+                        <div class="text-yellow-400 text-lg">★★★★★</div>
+                        <p class="text-[var(--fg-muted)] text-sm">"Professional reporting features. Our investors were impressed by how we present data."</p>
+                        <div class="text-sm font-semibold text-[var(--fg)]">— Director Wang, DEF Operations</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-24 px-4 section-divider">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-start justify-between flex-wrap gap-6 mb-10">
+                    <div>
+                        <p class="badge mb-3">FAQ</p>
+                        <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient">Common questions</h2>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <details class="card p-5" open>
+                        <summary class="cursor-pointer text-lg font-semibold marker:none">What are the technical requirements?</summary>
+                        <p class="text-[var(--fg-muted)] mt-3 text-sm">Cloud-based, works with modern browsers. Supports Chrome, Firefox, Safari, and Edge.</p>
+                    </details>
+                    <details class="card p-5">
+                        <summary class="cursor-pointer text-lg font-semibold">How is data security ensured?</summary>
+                        <p class="text-[var(--fg-muted)] mt-3 text-sm">Industry-standard encryption for transmission and storage, with minimal access controls.</p>
+                    </details>
+                    <details class="card p-5">
+                        <summary class="cursor-pointer text-lg font-semibold">What data formats are supported?</summary>
+                        <p class="text-[var(--fg-muted)] mt-3 text-sm">Currently supports Excel (.xlsx, .xls). CSV and more formats coming soon.</p>
+                    </details>
+                    <details class="card p-5">
+                        <summary class="cursor-pointer text-lg font-semibold">Can I cancel my subscription?</summary>
+                        <p class="text-[var(--fg-muted)] mt-3 text-sm">Cancel anytime in account settings. No hidden fees.</p>
+                    </details>
+                    <details class="card p-5">
+                        <summary class="cursor-pointer text-lg font-semibold">Is there a free trial?</summary>
+                        <p class="text-[var(--fg-muted)] mt-3 text-sm">Yes, we offer a 14-day free trial. No credit card required to start.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="py-24 px-4 section-divider">
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-start">
                 <div>
-                    <h3 class="text-2xl font-semibold mb-6">发送消息</h3>
+                    <p class="badge mb-3">Contact</p>
+                    <h2 class="text-3xl sm:text-4xl font-semibold tracking-tight title-gradient mb-4">Need help?</h2>
+                    <p class="text-[var(--fg-muted)] mb-6">Have questions or want a custom demo? Send us a message.</p>
+                    <div class="space-y-3 text-sm text-[var(--fg-muted)]">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-[var(--accent)]"></i>
+                            <a href="mailto:support@uvend.ai" class="hover:text-[var(--fg)]">support@uvend.ai</a>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-book text-[var(--accent)]"></i>
+                            <a href="/help" class="hover:text-[var(--fg)]">Help Center</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-6">
                     <form class="space-y-4">
-                        <input type="text" placeholder="您的姓名" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                        <input type="email" placeholder="您的邮箱" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                        <textarea placeholder="您的消息" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"></textarea>
-                        <button type="submit" class="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
-                            发送消息
-                        </button>
+                        <div class="space-y-2">
+                            <label class="text-sm text-[var(--fg-subtle)]">Your Name</label>
+                            <input type="text" placeholder="Name" class="w-full px-4 py-3 rounded-lg bg-[#0F0F12] border border-white/10 text-[var(--fg)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm text-[var(--fg-subtle)]">Your Email</label>
+                            <input type="email" placeholder="Email" class="w-full px-4 py-3 rounded-lg bg-[#0F0F12] border border-white/10 text-[var(--fg)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm text-[var(--fg-subtle)]">Your Message</label>
+                            <textarea rows="4" placeholder="What would you like to know..." class="w-full px-4 py-3 rounded-lg bg-[#0F0F12] border border-white/10 text-[var(--fg)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"></textarea>
+                        </div>
+                        <button type="submit" class="w-full btn-primary text-center">Send Message</button>
                     </form>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 px-4">
-        <div class="max-w-7xl mx-auto">
+    <footer class="py-12 px-4 border-t border-white/5 bg-[var(--bg-deep)]">
+        <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h3 class="text-2xl font-bold mb-4">uVend</h3>
-                    <p class="text-gray-400">让自动售货机数据分析变得简单</p>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-[rgba(94,106,210,0.15)] border border-[rgba(255,255,255,0.08)] shadow-[0_0_0_1px_rgba(94,106,210,0.35),0_10px_30px_rgba(0,0,0,0.35)] flex items-center justify-center text-lg font-bold text-[var(--accent)]">uV</div>
+                        <span class="text-lg font-semibold tracking-tight">uVend</span>
+                    </div>
+                    <p class="text-[var(--fg-muted)] text-sm">Vending machine analytics made simple.</p>
                 </div>
-                <div>
-                    <h4 class="font-semibold mb-4">产品</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#features" class="hover:text-white transition">功能</a></li>
-                        <li><a href="#pricing" class="hover:text-white transition">价格</a></li>
-                        <li><a href="#demo" class="hover:text-white transition">演示</a></li>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-[var(--fg)]">Product</h4>
+                    <ul class="space-y-2 text-[var(--fg-muted)] text-sm">
+                        <li><a href="#features" class="hover:text-[var(--fg)]">Features</a></li>
+                        <li><a href="#pricing" class="hover:text-[var(--fg)]">Pricing</a></li>
+                        <li><a href="#demo" class="hover:text-[var(--fg)]">Demo</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="font-semibold mb-4">资源</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="/docs" class="hover:text-white transition">文档</a></li>
-                        <li><a href="/help" class="hover:text-white transition">帮助中心</a></li>
-                        <li><a href="#faq" class="hover:text-white transition">常见问题</a></li>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-[var(--fg)]">Resources</h4>
+                    <ul class="space-y-2 text-[var(--fg-muted)] text-sm">
+                        <li><a href="/docs" class="hover:text-[var(--fg)]">Documentation</a></li>
+                        <li><a href="/help" class="hover:text-[var(--fg)]">Help Center</a></li>
+                        <li><a href="#faq" class="hover:text-[var(--fg)]">FAQ</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="font-semibold mb-4">公司</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="/about" class="hover:text-white transition">关于我们</a></li>
-                        <li><a href="#contact" class="hover:text-white transition">联系我们</a></li>
-                        <li><a href="/privacy" class="hover:text-white transition">隐私政策</a></li>
-                        <li><a href="/terms" class="hover:text-white transition">服务条款</a></li>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-[var(--fg)]">Company</h4>
+                    <ul class="space-y-2 text-[var(--fg-muted)] text-sm">
+                        <li><a href="/about" class="hover:text-[var(--fg)]">About</a></li>
+                        <li><a href="#contact" class="hover:text-[var(--fg)]">Contact</a></li>
+                        <li><a href="/privacy" class="hover:text-[var(--fg)]">Privacy Policy</a></li>
+                        <li><a href="/terms" class="hover:text-[var(--fg)]">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm">© 2024 uVend. All rights reserved.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook"></i></a>
+            <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[var(--fg-muted)] text-sm">
+                <p>© 2024 uVend. All rights reserved.</p>
+                <div class="flex space-x-5">
+                    <a href="#" class="hover:text-[var(--fg)]"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-[var(--fg)]"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-[var(--fg)]"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
+        // Spotlight follows cursor
+        const spotlight = document.getElementById('spotlight');
+        document.addEventListener('mousemove', (e) => {
+            spotlight.style.setProperty('--x', `${e.clientX}px`);
+            spotlight.style.setProperty('--y', `${e.clientY}px`);
+            spotlight.style.opacity = 1;
+        });
+        document.addEventListener('mouseleave', () => {
+            spotlight.style.opacity = 0;
+        });
+
+        // Card radial glow on hover
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('pointermove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mx', `${x}%`);
+                card.style.setProperty('--my', `${y}%`);
+            });
+        });
+
+        // Mobile menu toggle
+        const toggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('mobile-menu');
+        toggle?.addEventListener('click', () => {
+            const isOpen = menu.classList.contains('hidden');
+            if (isOpen) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+            toggle.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (!menu.classList.contains('hidden') && window.innerWidth < 768) {
+                        menu.classList.add('hidden');
+                        toggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
                 }
             });
         });
